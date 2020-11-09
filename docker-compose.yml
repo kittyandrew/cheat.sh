@@ -2,12 +2,14 @@ version: '2'
 services:
   app:
     container_name: cheat.sh
+    #image: karpoke/cheat.sh
     image: cheat.sh
     build: .
     depends_on:
       - redis
     environment:
       - CHEATSH_CACHE_REDIS_HOST=redis
+      - CHEATSH_PORT=8080
 
   redis:
     container_name: cheat.sh-db

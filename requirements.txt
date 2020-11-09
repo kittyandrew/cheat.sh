@@ -1,4 +1,5 @@
 wheel
+python-Levenshtein
 gevent
 flask
 requests
