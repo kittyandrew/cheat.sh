@@ -95,7 +95,8 @@ _CONFIG = {
     "cache.redis.host": "localhost",
     "cache.redis.port": 6379,
     "cache.redis.prefix": "",
-    "cache.type": "redis",
+    "cache.redis.password": "",
+    "cache.type": "",
     "frontend.styles": sorted(list(get_all_styles())),
     "log.level": 4,
     "path.internal.ansi2html": os.path.join(_MYDIR, "share/ansi2html.sh"),
@@ -172,12 +173,13 @@ class Config(dict):
         newdict = dict(*args, **kwargs)
         if 'path.workdir' in newdict:
             self['path.workdir'] = newdict['path.workdir']
-
+        print("Updating config")
         for key, val in newdict.items():
             self[key] = val
+            print("Update:", key, val)
 
 def _load_config_from_environ(config):
-
+    print("Loading from environ")
     update = {}
     for key, val in config.items():
         if not isinstance(val, str) or isinstance(val, int):
@@ -195,6 +197,7 @@ def _load_config_from_environ(config):
                 continue
 
         update[key] = env_val
+        print("ENV:", key, val, env_val)
 
     return update
 
@@ -230,6 +233,7 @@ def _get_nested(data, key):
 
 def _load_config_from_file(default_config, filename):
     import yaml
+    print("Loading from file")
 
     update = {}
     if not os.path.exists(filename):
@@ -249,6 +253,7 @@ def _load_config_from_file(default_config, filename):
                 continue
 
         update[key] = newval
+        print("YAML:", key, val, newval)
 
     return update
 

@@ -10,6 +10,7 @@ Configuration parameters:
     cache.redis.db
     cache.redis.host
     cache.redis.port
+    cache.redis.password
 """
 
 import os
@@ -19,10 +20,13 @@ from config import CONFIG
 _REDIS = None
 if CONFIG['cache.type'] == 'redis':
     import redis
-    _REDIS = redis.Redis(
+    _REDIS = redis.StrictRedis(
         host=CONFIG['cache.redis.host'],
         port=CONFIG['cache.redis.port'],
-        db=CONFIG['cache.redis.db'])
+        db=CONFIG['cache.redis.db'],
+        password=CONFIG['cache.redis.password'] or None,
+    )
+    print(_REDIS, CONFIG['cache.redis.host'], CONFIG['cache.redis.port'], CONFIG['cache.redis.password'])
 
 _REDIS_PREFIX = ''
 if CONFIG.get("cache.redis.prefix", ""):
